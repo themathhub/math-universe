@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta charset="utf-8"/>
+
+    <title>hotline miami</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            image-rendering: optimizeSpeed;
+            -webkit-interpolation-mode: nearest-neighbor;
+            -ms-touch-action: none;
+        }
+
+        div.gm4html5_div_class {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            height: 100%;
+        }
+
+        div.gm4html5_login {
+            padding: 20px;
+            position: absolute;
+            border: solid 2px #000000;
+            background-color: #404040;
+            color:#00ff00;
+            border-radius: 15px;
+            box-shadow: #101010 20px 20px 40px;
+        }
+
+        div.gm4html5_cancel_button {
+            float: right;
+        }
+
+        div.gm4html5_login_button {
+            float: left;
+        }
+
+        div.gm4html5_login_header {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="gm4html5_div_class" id="gm4html5_div_id">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script type="text/javascript" src="html5game/HotlineMiami.js?XIUAC=2092382048"></script>
+    <script>
+        function resizeCanvas() {
+            const canvas = document.getElementById("canvas");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+        // Add missing GameMaker functions
+        window.screen_save = function(filename) {
+            console.log("screen_save called with filename:", filename);
+            // HTML5 canvas screenshot functionality
+            try {
+                const canvas = document.getElementById("canvas");
+                if (canvas) {
+                    const link = document.createElement('a');
+                    link.download = filename || 'screenshot.png';
+                    link.href = canvas.toDataURL();
+                    link.click();
+                }
+            } catch (e) {
+                console.warn("Screenshot save failed:", e);
+            }
+            return 1; // Return success
+        };
+
+        window.addEventListener("load", function() {
+            resizeCanvas();
+            GameMaker_Init();
+
+            // Fix restart key detection by ensuring R key press is properly registered
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'r' || e.key === 'R') {
+                    // Ensure the R key (code 82) is marked as pressed in GameMaker's keyboard state
+                    if (window._LK2 && window._LK2._083) {
+                        window._LK2._083[82] = 1;
+                    }
+                }
+            });
+
+            document.addEventListener('keyup', function(e) {
+                if (e.key === 'r' || e.key === 'R') {
+                    // Clear the R key state when released
+                    if (window._LK2 && window._LK2._083) {
+                        window._LK2._083[82] = 0;
+                    }
+                }
+            });
+
+            // Fix pause menu restart option - only intervene when restart is actually selected
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    // Only intervene if we can confirm we're in a restart scenario
+                    try {
+                        var foundRestartMenu = false;
+
+                        // Check for pause menu objects with restart selected
+                        if (window._9i1) {
+                            for (var testType = 0; testType < 20; testType++) {
+                                try {
+                                    var objects = window._9i1(testType);
+                                    for (var id in objects) {
+                                        var obj = objects[id];
+                                        if (obj && obj._ji1 === 2 && obj._ii1 > 0) {
+                                            console.log("Restart menu detected! Type:", testType, "Object:", id);
+                                            foundRestartMenu = true;
+
+                                            // Only now try to restart
+                                            if (window.__g1 && window.__g1._rr1 && window.__g1._Dh1) {
+                                                var room = window.__g1._Dh1();
+                                                console.log("Restarting room:", room);
+                                                window.__g1._rr1(room);
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                return false;
+                                            }
+                                        }
+                                    }
+                                } catch (ex) {
+                                    // Ignore errors for non-existent types
+                                }
+                            }
+                        }
+
+                        // If no restart menu was found, let the game handle the key normally
+                        if (!foundRestartMenu) {
+                            // Don't prevent default - let the game handle menu navigation normally
+                            return true;
+                        }
+
+                    } catch (ex) {
+                        console.warn("Error in pause menu restart handler:", ex);
+                        // If there's an error, let the game handle the key normally
+                        return true;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
