@@ -189,15 +189,23 @@
         /* Game Player View */
         #game-view {
           display: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
           height: 100vh;
-          flex-direction: column;
         }
 
         #game-view.active {
-          display: flex;
+          display: block;
         }
 
         .game-header {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 60px;
           background: var(--btn-bg);
           color: var(--btn-text);
           padding: 15px 20px;
@@ -206,6 +214,7 @@
           justify-content: space-between;
           box-shadow: 0 2px 8px var(--border);
           border-bottom: 2px solid var(--border);
+          z-index: 10;
         }
 
         .game-title {
@@ -241,8 +250,11 @@
         }
 
         #game-iframe-container {
-          flex: 1;
-          position: relative;
+          position: absolute;
+          top: 60px;
+          left: 0;
+          right: 0;
+          bottom: 0;
           background: #000;
         }
 
@@ -469,13 +481,15 @@
         function renderGameGrid(gameArray) {
           var grid = document.querySelector('#gameList');
           grid.innerHTML = '';
+          // Build absolute base URL for CDN
+          var baseUrl = window.location.href.split('index.svg')[0];
           gameArray.forEach(function(game) {
             var a = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
             a.href = '#/game/' + game.id;
             a.className = 'game-card';
             var img = document.createElementNS('http://www.w3.org/1999/xhtml', 'img');
             img.className = 'imagebutton';
-            img.src = game.image;
+            img.src = baseUrl + game.image;
             img.alt = game.title;
             img.loading = 'lazy';
             a.appendChild(img);
@@ -520,8 +534,12 @@
           var iframe = document.querySelector('#game-iframe');
           var loadingScreen = document.querySelector('#loading-screen');
 
+          // Build absolute URL for CDN
+          var baseUrl = window.location.href.split('index.svg')[0];
+          var gameUrl = baseUrl + game.url;
+
           loadingScreen.style.display = 'flex';
-          iframe.src = game.url;
+          iframe.src = gameUrl;
 
           iframe.onload = function() {
             setTimeout(function() {
