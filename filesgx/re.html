@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <base href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/260/" />
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Unity WebGL Player | RERUN</title>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      UnityLoader.instantiate('unityContainer', 'Build/rerundone.json')
+    </script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      #unityContainer {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="unityContainer"></div>
+  </body>
+  <script>
+    // Define a function that will handle the click event
+    function handleClickOnce(event) {
+      const key = 'truffled_click_redirect_done_v3'
+      const redirectURL = 'https://discord.gg/truffled'
+
+      // 1. Open the URL in a new blank tab.
+      // The click event context helps bypass most modern browser pop-up blockers.
+      window.open(redirectURL, '_blank')
+
+      // 2. Set the flag in localStorage to remember the action for future sessions/tabs.
+      localStorage.setItem(key, '1')
+
+      // 3. IMPORTANT: Remove the event listener so this function never runs again in this session.
+      document.removeEventListener('click', handleClickOnce)
+      document.removeEventListener('touchend', handleClickOnce) // For touch devices
+    }
+
+    // Check localStorage to see if the action has been performed before.
+    const key = 'truffled_click_redirect_done_3'
+    if (!localStorage.getItem(key)) {
+      // If it hasn't been done, attach the click and touch event listeners to the entire document.
+      document.addEventListener('click', handleClickOnce)
+      document.addEventListener('touchend', handleClickOnce) // Add touch support for mobile
+    }
+  </script>
+</html>
