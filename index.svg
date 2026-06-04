@@ -1,0 +1,599 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+  <foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="width: 100%; height: 100vh; margin: 0; padding: 0;">
+      <style>
+        @import url('https://fonts.googleapis.com/css?family=Press+Start+2P&amp;display=swap');
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        :root {
+          --bg: #fff0f6;
+          --text: #503c5d;
+          --btn-bg: #ffe6f2;
+          --btn-text: #ff69b4;
+          --border: #ff69b4;
+          --accent: #ff69b4;
+        }
+
+        .dark-mode { --bg: #121212; --text: #fff; --btn-bg: #1e1e1e; --btn-text: #fff; --border: #333; --accent: #bb86fc; }
+        .light-mode { --bg: #fff; --text: #000; --btn-bg: #f0f0f0; --btn-text: #000; --border: #ccc; --accent: #1a0dab; }
+        .galaxy-theme { --bg: #0b0033; --text: #fff; --btn-bg: #1a0033; --btn-text: #fff; --border: #306; --accent: #f6f; }
+        .red-nebula-theme { --bg: #300; --text: #fff; --btn-bg: #600; --btn-text: #fff; --border: #900; --accent: #f33; }
+        .blue-nebula-theme { --bg: #003; --text: #fff; --btn-bg: #006; --btn-text: #fff; --border: #009; --accent: #39f; }
+        .bubblegum-theme { --bg: #ffe6f0; --text: #303; --btn-bg: #f9c; --btn-text: #303; --border: #f6b2; --accent: #c06; }
+        .forest-theme { --bg: #e6ffe6; --text: #030; --btn-bg: #9c9; --btn-text: #030; --border: #6b26; --accent: #060; }
+        .citrus-theme { --bg: #fffde7; --text: #426b1f; --btn-bg: #fe6; --btn-text: #fff; --border: #fa6; --accent: #70c744; }
+        .pastel-theme { --bg: #f0e6ff; --text: #303; --btn-bg: #c9f; --btn-text: #303; --border: #b26f; --accent: #80f; }
+        .coffee-theme { --bg: #f3e5d5; --text: #4b2e1e; --btn-bg: #d2b48c; --btn-text: #4b2e1e; --border: #a67c52; --accent: #8b4513; }
+        .super-dark { --bg: #1e1e2c; --text: #e6e6f0; --btn-bg: #2a2a42; --btn-text: #e6e6f0; --border: #7a7a9e; --accent: #9d9dc9; }
+
+        .rainbow-theme {
+          --bg: #fff;
+          --text: #000;
+          --btn-text: #fff;
+          --border: #ccc;
+          --accent: #f0f;
+          background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+          background-size: 300% 300%;
+          animation: rainbow 5s ease infinite;
+        }
+
+        @keyframes rainbow {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+
+        body, div {
+          background: var(--bg);
+          color: var(--text);
+          font-family: 'Press Start 2P', monospace;
+          min-height: 100vh;
+          transition: background 0.4s, color 0.3s;
+          overflow-x: hidden;
+          margin: 0;
+        }
+
+        .container {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: flex-start;
+          width: 100%;
+          z-index: 1;
+          padding: 20px;
+          box-sizing: border-box;
+        }
+
+        h1 {
+          color: var(--text);
+          font-size: 2.2rem;
+          margin: 32px 0 18px;
+          letter-spacing: 1px;
+          text-align: center;
+        }
+
+        #games-view {
+          display: block;
+          min-height: 100vh;
+        }
+
+        #gameSearch {
+          border: 2px solid var(--border);
+          background: var(--bg);
+          color: var(--text);
+          width: 400px;
+          max-width: 90vw;
+          padding: 10px;
+          border-radius: 20px;
+          outline: none;
+          font-family: 'Press Start 2P', monospace;
+          text-align: center;
+          box-shadow: 0 0 10px var(--border);
+          margin-bottom: 14px;
+          transition: all 0.3s;
+          font-size: 12px;
+        }
+
+        #gameSearch:focus {
+          background: var(--btn-bg);
+          box-shadow: 0 0 15px var(--border);
+        }
+
+        #gameSearch::placeholder {
+          color: var(--accent);
+          opacity: 0.7;
+        }
+
+        .game-counter {
+          color: var(--accent);
+          font-weight: 500;
+          margin-bottom: 10px;
+          text-align: center;
+          font-size: 10px;
+        }
+
+        .myButton {
+          font-family: 'Press Start 2P', monospace;
+          font-size: 16px;
+          color: var(--btn-text);
+          background: var(--btn-bg);
+          border: 2px solid var(--border);
+          padding: 12px 24px;
+          border-radius: 6px;
+          box-shadow: 0 0 8px var(--border);
+          transition: all 0.2s;
+          text-decoration: none;
+          display: inline-block;
+          margin: 12px 10px 18px;
+          cursor: pointer;
+        }
+
+        .myButton:hover {
+          background: var(--accent);
+          color: var(--bg);
+          box-shadow: 0 0 16px var(--border);
+          transform: scale(1.06);
+          border-color: var(--accent);
+        }
+
+        .game-grid {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
+          margin-bottom: 12px;
+          width: 100%;
+        }
+
+        .game-card {
+          display: inline-block;
+          text-decoration: none;
+          cursor: pointer;
+        }
+
+        .imagebutton {
+          width: 100px;
+          height: 100px;
+          border-radius: 12px;
+          border: 2.5px solid var(--border);
+          object-fit: cover;
+          box-shadow: 0 0 8px var(--border);
+          background: var(--btn-bg);
+          transition: all 0.2s;
+          margin: 6px;
+          display: block;
+        }
+
+        .imagebutton:hover {
+          transform: scale(1.08) rotate(-5deg);
+          box-shadow: 0 0 24px var(--border), 0 0 36px var(--border);
+          filter: brightness(1.2) contrast(1.1) drop-shadow(0 0 4px var(--border));
+        }
+
+        .game-card-title {
+          font-size: 8px;
+          text-align: center;
+          padding: 4px 2px;
+          color: var(--text);
+          max-width: 100px;
+          margin: 0 auto;
+          line-height: 1.3;
+          word-wrap: break-word;
+        }
+
+        /* Game Player View */
+        #game-view {
+          display: none;
+          height: 100vh;
+          flex-direction: column;
+        }
+
+        #game-view.active {
+          display: flex;
+        }
+
+        .game-header {
+          background: var(--btn-bg);
+          color: var(--btn-text);
+          padding: 15px 20px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          box-shadow: 0 2px 8px var(--border);
+          border-bottom: 2px solid var(--border);
+        }
+
+        .game-title {
+          font-size: 14px;
+          flex: 1;
+          color: var(--btn-text);
+        }
+
+        .game-controls {
+          display: flex;
+          gap: 10px;
+        }
+
+        .control-btn {
+          font-family: 'Press Start 2P', monospace;
+          font-size: 10px;
+          color: var(--btn-text);
+          background: var(--bg);
+          border: 2px solid var(--border);
+          padding: 8px 16px;
+          border-radius: 6px;
+          box-shadow: 0 0 8px var(--border);
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+          background: var(--accent);
+          color: var(--bg);
+          box-shadow: 0 0 16px var(--border);
+          transform: scale(1.05);
+          border-color: var(--accent);
+        }
+
+        #game-iframe-container {
+          flex: 1;
+          position: relative;
+          background: #000;
+        }
+
+        #game-iframe {
+          width: 100%;
+          height: 100%;
+          border: none;
+        }
+
+        #loading-screen {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: var(--bg);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+        }
+
+        .loading-text {
+          font-size: 14px;
+          color: var(--text);
+          animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+
+        .error-message {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: rgba(255, 0, 0, 0.9);
+          color: white;
+          padding: 20px 30px;
+          border-radius: 8px;
+          font-size: 12px;
+          text-align: center;
+          z-index: 2000;
+          display: none;
+        }
+
+        @media (max-width: 600px) {
+          h1 { font-size: 1.25rem; }
+          .myButton { font-size: 14px; padding: 10px 12px; margin: 7px 4px 14px; }
+          .imagebutton { width: 65px; height: 65px; }
+          .game-card-title { font-size: 7px; max-width: 65px; }
+          .game-grid { gap: 7px; }
+          #gameSearch { width: 90vw; font-size: 10px; }
+          .game-title { font-size: 10px; }
+          .control-btn { font-size: 8px; padding: 6px 12px; }
+          .game-header { padding: 10px 15px; }
+        }
+      </style>
+
+      <!-- Games List View -->
+      <div id="games-view">
+        <div class="container">
+          <h1>Marz's G&#x430;m&#x435;s</h1>
+          <input type="text" id="gameSearch" placeholder="Search for a story..." />
+          <p class="game-counter" id="gameCount">0 stories hosted</p>
+          <div style="text-align: center;">
+            <button class="myButton" id="randomGameBtn">Random Story</button>
+          </div>
+          <div class="game-grid" id="gameList"></div>
+        </div>
+      </div>
+
+      <!-- Game Player View -->
+      <div id="game-view">
+        <div class="game-header">
+          <div class="game-title" id="current-game-title">Loading...</div>
+          <div class="game-controls">
+            <button class="control-btn" id="fullscreen-btn">Fullscreen</button>
+            <button class="control-btn" id="back-btn">&#x2190; Back</button>
+          </div>
+        </div>
+        <div id="game-iframe-container">
+          <div id="loading-screen">
+            <div class="loading-text">Loading Game...</div>
+          </div>
+          <iframe id="game-iframe" allowfullscreen=""></iframe>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div id="error-message" class="error-message"></div>
+
+      <script>
+        <![CDATA[
+        var games = [
+          { id: 'college', title: 'Retro bowl college', image: 'images/gx/college.png', url: 'filesgx/gollege.html' },
+          { id: 'cup', title: 'Cuphead', image: 'images/gx/cup.png', url: 'filesgx/cup.html' },
+          { id: 'nubby', title: 'Nubbys number factory', image: 'images/gx/nubby.png', url: 'filesgx/nubby.html' },
+          { id: 'slime', title: 'Slime Ranchers', image: 'images/gx/slime.png', url: 'filesgx/slime.html' },
+          { id: 'lacy', title: 'Laceys Flash Games', image: 'images/gx/lacy.png', url: 'filesgx/lacy.html' },
+          { id: 'hk', title: 'Hollow Knight', image: 'images/gx/hk.png', url: 'filesgx/hk.html' },
+          { id: 'mania', title: 'Sonic Mania', image: 'images/gx/mania.png', url: 'filesgx/mania.html' },
+          { id: 'doge', title: 'Doge Miner', image: 'images/gx/doge.png', url: 'filesgx/doge.html' },
+          { id: 're', title: 'RE:RUN', image: 'images/gx/re.png', url: 'filesgx/re.html' },
+          { id: 'drive', title: 'Drive Mad', image: 'images/gx/drive.png', url: 'filesgx/drive.html' },
+          { id: 'yandere', title: 'Yandere Simulator', image: 'images/gx/yandere.png', url: 'filesgx/yandere.html' },
+          { id: 'sins', title: 'Sins and Desires', image: 'images/sins.jpg', url: 'filesgx/sins.html' },
+          { id: 'gd3d', title: 'Geometry Dash 3d', image: 'images/gd3d.jpg', url: 'filesgx/gd3d.html' },
+          { id: 'uno', title: 'Uno', image: 'images/uno.jpg', url: 'filesgx/uno.html' },
+          { id: 'pgbr', title: 'Penguin Battle Royale', image: 'images/pgbr.jpg', url: 'filesgx/pgbr.html' },
+          { id: 'sb', title: 'Scary Baby Pink Horror Game', image: 'images/sb.jpg', url: 'filesgx/sb.html' },
+          { id: 'osu', title: 'Osu', image: 'images/gx/osu.png', url: 'filesgx/osu!.html' },
+          { id: 'ddlc', title: 'Doki Doki Literature Club', image: 'images/gx/ddlc.jpg', url: 'filesgx/ddlc.html' },
+          { id: 'co09', title: "Class of '09", image: 'images/gx/co09.png', url: 'filesgx/classof09web/index.html' },
+          { id: 'co09reup', title: "Class of '09: The Re-Up", image: 'images/gx/reupp.png', url: 'filesgx/classof09reup/index.html' },
+          { id: 'co09flip', title: "Class of '09: The Flipside", image: 'images/gx/flipside.png', url: 'filesgx/classof09flip/index.html' },
+          { id: 'undertale', title: 'Undertale', image: 'images/gx/undertale.png', url: 'filesgx/undertale.html' },
+          { id: 'deltarune', title: 'Deltarune', image: 'images/gx/deltarune.png', url: 'filesgx/deltarune/deltaruneindex.html' },
+          { id: 'snake', title: 'Snake', image: 'images/gx/ekkeLl.png', url: 'filesgx/snake-remake-html-main/natlol/index.html' },
+          { id: 'freddy', title: "A Bite at Freddy's", image: 'images/gx/freddy.png', url: 'filesgx/A Bite at Freddy\'s.html' },
+          { id: 'kindergarten', title: 'Kindergarten', image: 'images/gx/kindergarten.png', url: 'filesgx/Kindergarten.html' },
+          { id: 'kindergarten2', title: 'Kindergarten 2', image: 'images/gx/kg2.png', url: 'filesgx/Kindergarten 2.html' },
+          { id: 'celeste', title: 'Celeste', image: 'images/gx/celeste.png', url: 'filesgx/Celeste PICO.html' },
+          { id: 'cookie', title: 'Cookie Clicker', image: 'images/gx/cookieclicker.png', url: 'filesgx/Cookie Clicker.html' },
+          { id: 'bowmasters', title: 'Bowmasters', image: 'images/gx/bowmasters.png', url: 'filesgx/Bowmasters.html' },
+          { id: 'crazycattle', title: 'Crazy Cattle 3D', image: 'images/gx/crazycattle.png', url: 'filesgx/Crazy Cattle 3D.html' },
+          { id: 'crazychicken', title: 'Crazy Kitty 3D', image: 'images/gx/cc3d.png', url: 'filesgx/Crazy Chicken 3D.html' },
+          { id: 'crazykitty', title: 'Crazy Chicken 3D', image: 'images/gx/ck3d.png', url: 'filesgx/Crazy Kitty 3D.html' },
+          { id: 'buckshot', title: 'Buckshot Roulette', image: 'images/gx/buckshot.png', url: 'filesgx/Buckshot Roulette.html' },
+          { id: 'retrobowl', title: 'Retro Bowl', image: 'images/gx/retrobowl.png', url: 'filesgx/Retro Bowl.html' },
+          { id: '2048', title: '2048', image: 'images/gx/2048.png', url: 'filesgx/2048.html' },
+          { id: '8ball', title: '8 Ball Pool', image: 'images/gx/8ball.png', url: 'filesgx/8 Ball Pool.html' },
+          { id: 'baldis', title: "Baldi's Basics", image: 'images/gx/baldis.png', url: 'filesgx/Baldi\'s Basics.html' },
+          { id: 'bendy', title: 'Bendy and the Ink Machine', image: 'images/gx/bendy.png', url: 'filesgx/Bendy and the Ink Machine.html' },
+          { id: 'bitlife', title: 'BitLife', image: 'images/gx/bitlife.png', url: 'filesgx/BitLife.html' },
+          { id: 'bloxorz', title: 'Bloxorz', image: 'images/gx/bloxorz.png', url: 'filesgx/Bloxorz.html' },
+          { id: 'chess', title: 'Chess', image: 'images/gx/chess.png', url: 'filesgx/Chess Classic.html' },
+          { id: 'cluster', title: 'Cluster Truck', image: 'images/gx/clustertruck.png', url: 'filesgx/Cluster Rush.html' },
+          { id: 'doom', title: 'DOOM', image: 'images/gx/doom.png', url: 'filesgx/DOOM.html' },
+          { id: 'fnaf1', title: 'FNAF', image: 'images/gx/FNAF1.png', url: 'filesgx/Five Nights at Freddy\'s.html' },
+          { id: 'fnaf2', title: 'FNAF 2', image: 'images/gx/FNAF2.png', url: 'filesgx/Five Nights at Freddy\'s 2.html' },
+          { id: 'fnaf3', title: 'FNAF 3', image: 'images/gx/FNAF3.png', url: 'filesgx/Five Nights at Freddy\'s 3.html' },
+          { id: 'fnaf4', title: 'FNAF 4', image: 'images/gx/FNAF4.png', url: 'filesgx/Five Nights at Freddy\'s 4.html' },
+          { id: 'fnaf4hw', title: 'FNAF 4 Halloween', image: 'images/gx/FNAF4HW.png', url: 'filesgx/Five Nights at Freddy\'s 4_%20Halloween.html' },
+          { id: 'fnafsl', title: 'FNAF Sister Location', image: 'images/gx/FNAFSL.png', url: 'filesgx/Five Nights at Freddy\'s_%20Sister%20Location.html' },
+          { id: 'fnafucn', title: 'FNAF UCN', image: 'images/gx/UCN.png', url: 'filesgx/Five Nights at Freddy\'s_%20Ultimate%20Custom%20Night.html' },
+          { id: 'fnafps', title: 'FNAF Pizza Simulator', image: 'images/gx/FNAFPS.png', url: 'filesgx/Five Nights at Freddy\'s_%20Pizza%20Simulator.html' },
+          { id: 'fnafworld', title: 'FNAF World', image: 'images/gx/fnafworld.png', url: 'filesgx/Five Nights at Freddy\'s_%20World.html' },
+          { id: 'pizzatower', title: 'Pizza Tower', image: 'images/gx/pizzatower.png', url: 'filesgx/Pizza Tower.html' },
+          { id: 'pplpg', title: 'People Playground', image: 'images/gx/pplpg.png', url: 'filesgx/People Playground.html' },
+          { id: 'bbstars', title: 'Basketball Stars', image: 'images/gx/bbstars.png', url: 'filesgx/Basketball Stars.html' },
+          { id: 'blockblast', title: 'Block Blast', image: 'images/gx/blockblast.png', url: 'filesgx/Block Blast.html' },
+          { id: 'flappydunk', title: 'Flappy Dunk', image: 'images/gx/flappydunk.png', url: 'filesgx/Flappy Dunk.html' },
+          { id: 'fnf', title: 'Friday Night Funkin', image: 'images/gx/fnf.png', url: 'filesgx/Friday Night Funkin.html' },
+          { id: 'minecraft', title: 'Minecraft', image: 'images/gx/mc.png', url: 'filesgx/Minecraft 1.12.2.html' },
+          { id: 'ultrakill', title: 'ULTRAKILL', image: 'images/gx/uk.png', url: 'filesgx/ULTRAKILL.html' },
+          { id: 'run1', title: 'Run 1', image: 'images/gx/run1.png', url: 'filesgx/Run 1.html' },
+          { id: 'run2', title: 'Run 2', image: 'images/gx/run2.png', url: 'filesgx/Run 2.html' },
+          { id: 'run3', title: 'Run 3', image: 'images/gx/run3.png', url: 'filesgx/Run 3.html' },
+          { id: 'bloonstd1', title: 'Bloons TD 1', image: 'images/gx/bloons.jpeg', url: 'filesgx/Bloons TD.html' },
+          { id: 'bloonstd2', title: 'Bloons TD 2', image: 'images/gx/bloon2.png', url: 'filesgx/Bloons TD 2.html' },
+          { id: 'bloonstd3', title: 'Bloons TD 3', image: 'images/gx/bloon3.png', url: 'filesgx/Bloons TD 3.html' },
+          { id: 'bloonstd4', title: 'Bloons TD 4', image: 'images/gx/bloon4.png', url: 'filesgx/Bloons TD 4.html' },
+          { id: 'bloonstd5', title: 'Bloons TD 5', image: 'images/gx/bloon5.png', url: 'filesgx/Bloons TD 5.html' },
+          { id: 'backrooms', title: 'Backrooms', image: 'images/gx/br.png', url: 'filesgx/backrooms/index.html' },
+          { id: 'amanda', title: 'Amanda the Adventurer', image: 'images/gx/ata.png', url: 'filesgx/Amanda the Adventurer.html' },
+          { id: 'halflife', title: 'Half Life', image: 'images/gx/hl.png', url: 'filesgx/Half Life.html' },
+          { id: 'badparenting', title: 'Bad Parenting 1', image: 'images/gx/bp1.png', url: 'filesgx/Bad Parenting 1.html' },
+          { id: 'bindingofisaac', title: 'Binding Of Issac: Wrath of the Lamb', image: 'images/gx/biwotl.png', url: 'filesgx/Binding of Issac_ Wrath of the Lamb.html' },
+          { id: 'animalcrossing', title: 'Animal Crossing: Wild World', image: 'images/gx/animalcrossing.png', url: 'filesgx/animalcrossings.html' },
+          { id: 'earthbound', title: 'Earthbound', image: 'images/gx/earthbound.png', url: 'filesgx/earthbound.html' },
+          { id: 'hotlinemiami', title: 'Hotline Miami', image: 'images/gx/hm.png', url: 'filesgx/hotline-miami/index.html' },
+          { id: 'aceattorney', title: 'Phoenix Wright: Ace Attorney', image: 'images/gx/phoenix_wright_ace_attorney.png', url: 'filesgx/aceattorney.html' },
+          { id: 'papasbakeria', title: "Papa's Bakeria", image: 'images/gx/papasbakeria.png', url: 'filesgx/papasbakeria/index.html' },
+          { id: 'papasburgeria', title: "Papa's Burgeria", image: 'images/gx/papasburgeria.jpeg', url: 'filesgx/papasburgeria/index.html' },
+          { id: 'papascheeseria', title: "Papa's Cheeseria", image: 'images/gx/papascheeseria.png', url: 'filesgx/papascheeseria/index.html' },
+          { id: 'papaspastaria', title: "Papa's Pastaria", image: 'images/gx/papaspastaria.png', url: 'filesgx/papaspastaria/index.html' },
+          { id: 'papasdonuteria', title: "Papa's Donuteria", image: 'images/gx/papasdonuteria.png', url: 'filesgx/papasdonuteria/index.html' },
+          { id: 'papasfreezeria', title: "Papa's Freezeria", image: 'images/gx/papasfreezeria.jpeg', url: 'filesgx/papasfreezeria/index.html' },
+          { id: 'papaspizzeria', title: "Papa's Pizzaria", image: 'images/gx/papaspizzaria.jpeg', url: 'filesgx/papaspizzeria/index.html' },
+          { id: 'papaspancakeria', title: "Papa's Pancakeria", image: 'images/gx/papaspancakeria.png', url: 'filesgx/papaspancakeria/index.html' },
+          { id: 'papassushiria', title: "Papa's Sushiria", image: 'images/gx/papassushiria.png', url: 'filesgx/papassushiria/index.html' },
+          { id: 'papasscooperia', title: "Papa's Scooperia", image: 'images/gx/papasscooperia.png', url: 'filesgx/papasscooperia/index.html' },
+          { id: 'papastacomia', title: "Papa's Tacomia", image: 'images/gx/papastacomia.png', url: 'filesgx/papastacomia/index.html' },
+          { id: 'papaswingeria', title: "Papa's Wingeria", image: 'images/gx/papaswingeria.png', url: 'filesgx/papaswingeria/index.html' },
+          { id: 'angrybirds', title: 'Angry Birds', image: 'images/gx/ab.png', url: 'filesgx/Angry Birds.html' },
+          { id: 'angrybirdschrome', title: 'Angry Birds Chrome', image: 'images/gx/abc.png', url: 'filesgx/Angry Birds Chrome.html' },
+          { id: 'yumenikki', title: 'Yume Nikki', image: 'images/gx/yn.png', url: 'filesgx/Yume Nikki.html' },
+          { id: 'slender', title: 'Slender: The 8 Pages', image: 'images/gx/st8p.png', url: 'filesgx/Slender_ The 8 Pages.html' },
+          { id: 'bloodmoney', title: 'BLOODMONEY!', image: 'images/gx/bloodmon.png', url: 'filesgx/BLOODMONEY!.html' },
+          { id: 'webfishing', title: 'WebFishing', image: 'images/gx/webfish.png', url: 'filesgx/WebFishing.html' },
+          { id: 'andysapplefarm', title: "Andy's Apple Farm", image: 'images/gx/aaf.png', url: 'filesgx/Andy\'s Apple Farm.html' },
+          { id: 'rhythmheaven', title: 'Rhythm Heaven', image: 'images/gx/ryhev.jpg', url: 'filesgx/rhythmheaven.html' },
+          { id: 'breakingthebank', title: 'Breaking the Bank', image: 'images/gx/btb.webp', url: 'filesgx/szvy_central_local__gsrc_breakingthebank_index.html.html' },
+          { id: 'deadplate', title: 'DEAD PLATE', image: 'images/gx/Deadplate.png', url: 'filesgx/Deadplate.html' },
+          { id: 'deadseat', title: 'The Deadseat', image: 'images/gx/deadseat.png', url: 'filesgx/The Deadseat.html' },
+          { id: 'maninthewindow', title: 'The Man In The Window', image: 'images/gx/maninthewindow.png', url: 'filesgx/The Man In The Window.html' },
+          { id: 'undertaleyellow', title: 'Undertale Yellow', image: 'images/gx/undertaleyellow.png', url: 'filesgx/Undertale Yellow.html' }
+        ];
+
+        function getRoute() {
+          var hash = window.location.hash.slice(1) || '/';
+          return hash;
+        }
+
+        function navigate(path) {
+          window.location.hash = path;
+        }
+
+        function showGamesList() {
+          document.getElementById('games-view').style.display = 'block';
+          document.getElementById('game-view').classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+
+        function showGameView() {
+          document.getElementById('games-view').style.display = 'none';
+          document.getElementById('game-view').classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function renderGameGrid(gameArray) {
+          var grid = document.getElementById('gameList');
+          grid.innerHTML = '';
+          gameArray.forEach(function(game) {
+            var a = document.createElement('a');
+            a.href = '#/game/' + game.id;
+            a.className = 'game-card';
+            var img = document.createElement('img');
+            img.className = 'imagebutton';
+            img.src = game.image;
+            img.alt = game.title;
+            img.loading = 'lazy';
+            a.appendChild(img);
+            grid.appendChild(a);
+          });
+        }
+
+        function filterGames(query) {
+          return games.filter(function(game) {
+            return game.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+          });
+        }
+
+        function animateCounter(count) {
+          var counterElement = document.getElementById('gameCount');
+          var current = 0;
+          var duration = 500;
+          var steps = Math.ceil(duration / 16);
+          var increment = Math.ceil(count / steps);
+
+          var counter = setInterval(function() {
+            current += increment;
+            if (current >= count) {
+              current = count;
+              clearInterval(counter);
+            }
+            counterElement.textContent = current + ' g\u0430m\u0435s hosted';
+          }, 16);
+        }
+
+        function loadGame(gameId) {
+          var game = games.find(function(g) { return g.id === gameId; });
+          if (!game) {
+            showError('Game not found!');
+            setTimeout(function() { navigate('/'); }, 2000);
+            return;
+          }
+
+          showGameView();
+          document.getElementById('current-game-title').textContent = game.title;
+
+          var iframe = document.getElementById('game-iframe');
+          var loadingScreen = document.getElementById('loading-screen');
+
+          loadingScreen.style.display = 'flex';
+          iframe.src = game.url;
+
+          iframe.onload = function() {
+            setTimeout(function() {
+              loadingScreen.style.display = 'none';
+            }, 500);
+          };
+
+          setTimeout(function() {
+            if (loadingScreen.style.display !== 'none') {
+              loadingScreen.style.display = 'none';
+            }
+          }, 3000);
+        }
+
+        function showError(message) {
+          var errorDiv = document.getElementById('error-message');
+          errorDiv.textContent = message;
+          errorDiv.style.display = 'block';
+          setTimeout(function() {
+            errorDiv.style.display = 'none';
+          }, 3000);
+        }
+
+        function handleRoute() {
+          var route = getRoute();
+
+          if (route === '/' || route === '/games' || route === '') {
+            showGamesList();
+          } else if (route.indexOf('/game/') === 0) {
+            var gameId = route.replace('/game/', '');
+            loadGame(gameId);
+          } else {
+            navigate('/');
+          }
+        }
+
+        window.addEventListener('hashchange', handleRoute);
+
+        document.getElementById('back-btn').addEventListener('click', function() {
+          navigate('/');
+        });
+
+        document.getElementById('fullscreen-btn').addEventListener('click', function() {
+          var iframe = document.getElementById('game-iframe');
+          if (iframe.requestFullscreen) {
+            iframe.requestFullscreen();
+          } else if (iframe.webkitRequestFullscreen) {
+            iframe.webkitRequestFullscreen();
+          }
+        });
+
+        document.getElementById('randomGameBtn').addEventListener('click', function() {
+          if (games.length === 0) return;
+          var random = games[Math.floor(Math.random() * games.length)];
+          navigate('/game/' + random.id);
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+          renderGameGrid(games);
+          animateCounter(games.length);
+
+          var searchInput = document.getElementById('gameSearch');
+          searchInput.addEventListener('input', function() {
+            var filtered = filterGames(searchInput.value);
+            renderGameGrid(filtered);
+            document.getElementById('gameCount').textContent = filtered.length + ' game' + (filtered.length === 1 ? '' : 's') + ' hosted';
+          });
+
+          handleRoute();
+        });
+        ]]>
+      </script>
+    </div>
+  </foreignObject>
+</svg>
