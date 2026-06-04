@@ -455,25 +455,25 @@
         }
 
         function showGamesList() {
-          document.getElementById('games-view').style.display = 'block';
-          document.getElementById('game-view').classList.remove('active');
-          document.body.style.overflow = 'auto';
+          document.querySelector('#games-view').style.display = 'block';
+          document.querySelector('#game-view').classList.remove('active');
+          document.documentElement.style.overflow = 'auto';
         }
 
         function showGameView() {
-          document.getElementById('games-view').style.display = 'none';
-          document.getElementById('game-view').classList.add('active');
-          document.body.style.overflow = 'hidden';
+          document.querySelector('#games-view').style.display = 'none';
+          document.querySelector('#game-view').classList.add('active');
+          document.documentElement.style.overflow = 'hidden';
         }
 
         function renderGameGrid(gameArray) {
-          var grid = document.getElementById('gameList');
+          var grid = document.querySelector('#gameList');
           grid.innerHTML = '';
           gameArray.forEach(function(game) {
-            var a = document.createElement('a');
+            var a = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
             a.href = '#/game/' + game.id;
             a.className = 'game-card';
-            var img = document.createElement('img');
+            var img = document.createElementNS('http://www.w3.org/1999/xhtml', 'img');
             img.className = 'imagebutton';
             img.src = game.image;
             img.alt = game.title;
@@ -490,7 +490,7 @@
         }
 
         function animateCounter(count) {
-          var counterElement = document.getElementById('gameCount');
+          var counterElement = document.querySelector('#gameCount');
           var current = 0;
           var duration = 500;
           var steps = Math.ceil(duration / 16);
@@ -515,10 +515,10 @@
           }
 
           showGameView();
-          document.getElementById('current-game-title').textContent = game.title;
+          document.querySelector('#current-game-title').textContent = game.title;
 
-          var iframe = document.getElementById('game-iframe');
-          var loadingScreen = document.getElementById('loading-screen');
+          var iframe = document.querySelector('#game-iframe');
+          var loadingScreen = document.querySelector('#loading-screen');
 
           loadingScreen.style.display = 'flex';
           iframe.src = game.url;
@@ -537,7 +537,7 @@
         }
 
         function showError(message) {
-          var errorDiv = document.getElementById('error-message');
+          var errorDiv = document.querySelector('#error-message');
           errorDiv.textContent = message;
           errorDiv.style.display = 'block';
           setTimeout(function() {
@@ -560,12 +560,12 @@
 
         window.addEventListener('hashchange', handleRoute);
 
-        document.getElementById('back-btn').addEventListener('click', function() {
+        document.querySelector('#back-btn').addEventListener('click', function() {
           navigate('/');
         });
 
-        document.getElementById('fullscreen-btn').addEventListener('click', function() {
-          var iframe = document.getElementById('game-iframe');
+        document.querySelector('#fullscreen-btn').addEventListener('click', function() {
+          var iframe = document.querySelector('#game-iframe');
           if (iframe.requestFullscreen) {
             iframe.requestFullscreen();
           } else if (iframe.webkitRequestFullscreen) {
@@ -573,25 +573,35 @@
           }
         });
 
-        document.getElementById('randomGameBtn').addEventListener('click', function() {
+        document.querySelector('#randomGameBtn').addEventListener('click', function() {
           if (games.length === 0) return;
           var random = games[Math.floor(Math.random() * games.length)];
           navigate('/game/' + random.id);
         });
 
-        window.addEventListener('DOMContentLoaded', function() {
+        function init() {
           renderGameGrid(games);
           animateCounter(games.length);
 
-          var searchInput = document.getElementById('gameSearch');
+          var searchInput = document.querySelector('#gameSearch');
           searchInput.addEventListener('input', function() {
             var filtered = filterGames(searchInput.value);
             renderGameGrid(filtered);
-            document.getElementById('gameCount').textContent = filtered.length + ' game' + (filtered.length === 1 ? '' : 's') + ' hosted';
+            document.querySelector('#gameCount').textContent = filtered.length + ' game' + (filtered.length === 1 ? '' : 's') + ' hosted';
           });
 
           handleRoute();
-        });
+        }
+
+        // Try multiple initialization methods for SVG foreignObject compatibility
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+          setTimeout(init, 0);
+        } else {
+          window.addEventListener('DOMContentLoaded', init);
+          window.addEventListener('load', init);
+        }
+        // Fallback: always try to init after a short delay
+        setTimeout(init, 100);
         ]]>
       </script>
     </div>
